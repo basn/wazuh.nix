@@ -191,7 +191,7 @@ in
       owner = "wazuh";
       repo = "wazuh";
       rev = "v${version}";
-      sha256 = "sha256-lXi/2qQV3v3mikR2SxK0DMpTuw8Dqka5SccA0xMnP0s=";
+      sha256 = "sha256-O68hdPAs9qYmyb1KbAGrJ1LHi0oa2lL+osKcuFhniCg=";
     };
 
     enableParallelBuilding = true;
