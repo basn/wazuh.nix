@@ -189,8 +189,6 @@ in {
          before = ["wazuh-agent-auth.service"];
          serviceConfig = {
            Type = "oneshot";
-           User = wazuhUser;
-           Group = wazuhGroup;
            ExecStart =
              let
                script = pkgs.writeShellApplication { name = "wazuh-prestart"; text = preStart; };
