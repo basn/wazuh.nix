@@ -51,7 +51,7 @@
     };
     modern_bpf_c = fetchurl {
       url = "https://raw.githubusercontent.com/wazuh/wazuh/v${version}/src/syscheckd/src/ebpf/src/modern.bpf.c";
-      hash = "sha256-mnPGgEoBZgXT6KxNCHEYt8eZHqrWIJjajxwiifpff+A=";
+      hash = "sha256-0brqkygz654csymn27gpd713h2kv34ca1hsfvpw56vn119dlzcqg=";
     };
   };
 in
@@ -63,7 +63,7 @@ in
       owner = "wazuh";
       repo = "wazuh";
       rev = "v${version}";
-      sha256 = "sha256-yWth09J1SSEi6xGCA8oAkVcBBEnXyOAWOnTNuXWEnNk=";
+      sha256 = "sha256-LmMt2t2ra7kPiYwcy+GIKg5a+LPebTNct/FP5en5JR0=";
     };
 
     #enableParallelBuilding = true;
