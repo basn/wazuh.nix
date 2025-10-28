@@ -28,7 +28,7 @@
   zlib,
   ...
 }: let
-  version = "4.12.0";
+  version = "4.13.1";
   dependencyVersion = "40";
   external_dependencies = (
     import ./dependencies {
