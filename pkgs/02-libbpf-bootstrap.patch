@@ -66,4 +66,3 @@
 +set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=implicit-function-declaration -Wno-error=int-conversion")
  bpf_object(modern src/modern.bpf.c)
  add_dependencies(modern_skel libbpf-build bpftool-build vmlinux.h)
- 

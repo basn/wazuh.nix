@@ -1,4 +1,3 @@
-
 {
   autoconf,
   automake,
@@ -26,49 +25,58 @@
   stdenv,
   systemd,
   zlib,
+  # Needed for makefile
+  ps,
+  breakpointHook,
   ...
 }: let
+  inherit (lib) getExe;
   version = "4.13.1";
-  dependencyVersion = "40";
-  external_dependencies = (
-    import ./dependencies {
-      inherit fetchurl lib dependencyVersion;
-    }
+  dependencyVersion = "43";
+
+  external-dependencies = (
+    lib.mapAttrsToList (
+      _: dep:
+        fetchurl {
+          url = "https://packages.wazuh.com/deps/${dependencyVersion}/libraries/sources/${dep.name}.tar.gz";
+          hash = dep.hash;
+        }
+    ) (import ./dependencies/external-dependencies.nix)
   );
+
   wazuh-http-request = fetchFromGitHub {
     owner = "wazuh";
     repo = "wazuh-http-request";
     rev = "75384783d339a817b8d8f13f778051a878d642a6";
-    sha256 = "sha256-yCKxwzG65BB3Cr1gEkX4qxbGCjG5zzJpq9di5L1couU=";
+    hash = "sha256-yCKxwzG65BB3Cr1gEkX4qxbGCjG5zzJpq9di5L1couU=";
   };
   libbpf_bootstrap_deps = {
     bootstrap = fetchFromGitHub {
       owner = "libbpf";
       repo = "libbpf-bootstrap";
       rev = "aa18cc0d8fc8ef4104fb74d218ae6a20cf6eb176";
-      sha256 = "sha256-ggIDf/I4QlSypFpsRibsdWd9bSevC2mfyEenlYZQdqI=";
+      hash = "sha256-ggIDf/I4QlSypFpsRibsdWd9bSevC2mfyEenlYZQdqI=";
       fetchSubmodules = true;
     };
     modern_bpf_c = fetchurl {
       url = "https://raw.githubusercontent.com/wazuh/wazuh/v${version}/src/syscheckd/src/ebpf/src/modern.bpf.c";
-      hash = "sha256-0brqkygz654csymn27gpd713h2kv34ca1hsfvpw56vn119dlzcqg=";
+      hash = "sha256-D7NPWwrBblP43U7DoBgZewo4wmn3HWGr14wU85+fOC8=";
     };
   };
 in
-  stdenv.mkDerivation rec {
+  stdenv.mkDerivation {
     pname = "wazuh-agent";
     inherit version;
 
     src = fetchFromGitHub {
       owner = "wazuh";
       repo = "wazuh";
-      rev = "v${version}";
-      sha256 = "sha256-LmMt2t2ra7kPiYwcy+GIKg5a+LPebTNct/FP5en5JR0=";
+      tag = "v${version}";
+      hash = "sha256-LmMt2t2ra7kPiYwcy+GIKg5a+LPebTNct/FP5en5JR0=";
     };
 
-    #enableParallelBuilding = true;
     dontConfigure = true;
-    dontFixup = true;
+    #dontFixup = true;
 
     hardeningDisable = [
       "zerocallusedregs"
@@ -81,10 +89,12 @@ in
       cmake
       curl
       perl
+      ps
       pkg-config
       policycoreutils
       python312
       zlib
+      #breakpointHook
     ];
 
     buildInputs = [
@@ -109,24 +119,28 @@ in
       ./02-libbpf-bootstrap.patch
     ];
 
-    unpackPhase = ''
-      runHook preUnpack
-
-      cp -rf --no-preserve=all "$src"/* .
+    postUnpack = ''
+      pushd $sourceRoot
 
       mkdir -p src/external
       ${lib.strings.concatMapStringsSep "\n" (
           dep: "tar -xzf ${dep} -C src/external"
         )
-        external_dependencies}
+        external-dependencies}
 
+      echo 'grabbing libbpf-bootstrap...'
       mkdir -p src/external/libbpf-bootstrap/src
-      cp --no-preserve=all -rf ${libbpf_bootstrap_deps.bootstrap}/* src/external/libbpf-bootstrap
+      cp -r --preserve=timestamps --reflink=auto -- ${libbpf_bootstrap_deps.bootstrap}/* src/external/libbpf-bootstrap
+
+      echo 'grabbing modern_bpf_c...'
       cp ${libbpf_bootstrap_deps.modern_bpf_c} src/external/libbpf-bootstrap/src/modern.bpf.c
 
-      cp --no-preserve=all -rf ${wazuh-http-request}/* src/shared_modules/http-request/
+      echo 'grabbing wazuh-http-request...'
+      mkdir -p src/shared_modules/http-request
+      cp -r --preserve=timestamps --reflink=auto -- ${wazuh-http-request}/* src/shared_modules/http-request
 
-      runHook postUnpack
+      #chmod +x src/analysisd/compiled_rules/register_rule.sh
+      popd
     '';
 
     prePatch = ''
@@ -134,14 +148,14 @@ in
         --replace-fail "cd ''${LOCAL}" ""
 
       substituteInPlace src/external/audit-userspace/autogen.sh \
-        --replace-warn "cp INSTALL.tmp INSTALL" ""
+        --replace-fail "cp INSTALL.tmp INSTALL" ""
 
-      substituteInPlace src/external/openssl/config \
-        --replace-warn "/usr/bin/env" "env"
+      #substituteInPlace src/external/openssl/config \
+      #  --replace-fail "/usr/bin/env" "env"
 
       substituteInPlace src/init/inst-functions.sh \
-        --replace-warn "WAZUH_GROUP='wazuh'" "WAZUH_GROUP='nixbld'" \
-        --replace-warn "WAZUH_USER='wazuh'" "WAZUH_USER='nixbld'"
+        --replace-fail "WAZUH_GROUP='wazuh'" "WAZUH_GROUP='nixbld'" \
+        --replace-fail "WAZUH_USER='wazuh'" "WAZUH_USER='nixbld'"
 
       substituteInPlace src/external/libbpf-bootstrap/CMakeLists.txt \
         --replace-fail "/usr/bin/clang" "${clang}/bin/clang"
@@ -178,18 +192,20 @@ in
         --replace-fail "cd ''${LOCAL}" "#"
 
       chmod u+x $out/bin/* $out/active-response/bin/*
+    '';
 
-      ${removeReferencesTo}/bin/remove-references-to \
+    fixupPhase = ''
+      ${getExe removeReferencesTo} \
         -t ${libgcc.out} \
         $out/lib/*
 
-      ${patchelf}/bin/patchelf --add-rpath ${systemd}/lib $out/bin/wazuh-logcollector
+      ${getExe patchelf} --add-rpath ${systemd}/lib $out/bin/wazuh-logcollector
       rm -rf $out/src
     '';
 
     meta = {
       description = "Wazuh agent for NixOS";
       homepage = "https://wazuh.com";
+      license = [lib.licenses.gpl2Only];
     };
   }
-

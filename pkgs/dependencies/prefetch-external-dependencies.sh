@@ -1,4 +1,5 @@
-#! /usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p bash nixfmt
 
 EXTERNAL_DEPS=(
     "audit-userspace"
@@ -31,27 +32,27 @@ EXTERNAL_DEPS=(
     "zlib"
 )
 
-# Find version at: https://github.com/wazuh/wazuh/blob/v4.12.0/src/Makefile#L1385
-DEPENDENCY_VERSION=40
+# Find version at: https://github.com/wazuh/wazuh/blob/v4.13.1/src/Makefile#L1385
+#TODO Ensure this stays in sync with dependency version from the package, mismatches can cause prefetched content to be substituted incorrectly 
+DEPENDENCY_VERSION=43
 BASE_URL="https://packages.wazuh.com/deps/$DEPENDENCY_VERSION/libraries/sources"
 
-echo "{" >external_dependencies.nix
+echo "{" >external-dependencies.nix
 
 for dep in "${EXTERNAL_DEPS[@]}"; do
-    nix-prefetch-url "$BASE_URL/$dep.tar.gz" --type sha256 --print-path
     HASH=$(
         nix-prefetch-url "$BASE_URL/$dep.tar.gz" --type sha256 |
             xargs nix hash convert --from nix32 --to sri --hash-algo sha256
     )
-    cat <<EOF >>external_dependencies.nix
+    cat <<EOF >>external-dependencies.nix
 
 "$dep" = {
     name = "$dep";
-    sha256 = "$HASH";
+    hash = "$HASH";
 };
 EOF
 done
 
-echo "}" >>external_dependencies.nix
+echo "}" >>external-dependencies.nix
 
-nixfmt external_dependencies.nix
+nixfmt external-dependencies.nix
