@@ -64,6 +64,11 @@ with lib; let
   mkService = d: {
     description = "${d}";
     wants = ["wazuh-agent-auth.service"];
+    after = [
+      "setup-pre-wazuh.service"
+      "wazuh-agent-auth.service"
+    ];
+    requires = ["setup-pre-wazuh.service"];
 
     partOf = ["wazuh.target"];
     path =
@@ -199,7 +204,7 @@ in {
   config = mkIf cfg.enable {
     assertions = [
       {
-        assertion = with cfg; (config == null) -> (extraConfig != null);
+        assertion = with cfg; config == null || extraConfig == "";
         message = "extraConfig cannot be set when config is set";
       }
     ];
@@ -268,8 +273,8 @@ in {
 
         setup-pre-wazuh = {
           description = "Sets up wazuh's directory structure";
-          wantedBy = ["wazuh-agent-auth.service"];
-          before = ["wazuh-agent-auth.service"];
+          wantedBy = ["wazuh.target"];
+          before = ["wazuh-agent-auth.service"] ++ map (d: "${d}.service") daemons;
           serviceConfig = {
             Type = "oneshot";
             User = wazuhUser;
