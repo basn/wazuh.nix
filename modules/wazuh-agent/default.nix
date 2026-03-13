@@ -46,11 +46,12 @@ with lib; let
     find ${stateDir} -type d -exec chmod 770 {} \;
     find ${stateDir} -type f -exec chmod 750 {} \;
 
-    # Seed required defaults inside an existing state directory without
-    # clobbering persisted agent-specific files such as client.keys.
-    for f in internal_options.conf local_internal_options.conf wpk_root.pem; do
-      [ -e ${stateDir}/etc/$f ] || cp ${pkg}/etc/$f ${stateDir}/etc/$f
-    done
+    # Refresh versioned defaults that upstream expects to replace on upgrade.
+    cp ${pkg}/etc/internal_options.conf ${stateDir}/etc/internal_options.conf
+    cp ${pkg}/etc/wpk_root.pem ${stateDir}/etc/wpk_root.pem
+
+    # Keep the local override file if the admin already has one.
+    [ -e ${stateDir}/etc/local_internal_options.conf ] || cp ${pkg}/etc/local_internal_options.conf ${stateDir}/etc/local_internal_options.conf
 
     # Generate and copy ossec.config
     cp ${pkgs.writeText "ossec.conf" generatedConfig} ${stateDir}/etc/ossec.conf
