@@ -46,10 +46,16 @@ with lib; let
     find ${stateDir} -type d -exec chmod 770 {} \;
     find ${stateDir} -type f -exec chmod 750 {} \;
 
+    # Seed required defaults inside an existing state directory without
+    # clobbering persisted agent-specific files such as client.keys.
+    for f in internal_options.conf local_internal_options.conf wpk_root.pem; do
+      [ -e ${stateDir}/etc/$f ] || cp ${pkg}/etc/$f ${stateDir}/etc/$f
+    done
+
     # Generate and copy ossec.config
     cp ${pkgs.writeText "ossec.conf" generatedConfig} ${stateDir}/etc/ossec.conf
 
-    ${lib.optionalString (!(isNull agentAuthPassword)) "echo ${agentAuthPassword} >> ${stateDir}/etc/authd.pass"}
+    ${lib.optionalString (!(isNull agentAuthPassword)) "printf '%s\n' ${lib.escapeShellArg agentAuthPassword} > ${stateDir}/etc/authd.pass"}
 
   '';
 
@@ -261,13 +267,23 @@ in {
               if cfg.registration.host != null
               then cfg.registration.port
               else cfg.manager.port;
+            authScript = pkgs.writeShellApplication {
+              name = "wazuh-agent-auth";
+              text = ''
+                if [ -s ${stateDir}/etc/client.keys ]; then
+                  touch ${stateDir}/.agent-registered
+                  exit 0
+                fi
+
+                ${pkg}/bin/agent-auth -m ${ip} -p ${toString port}
+                touch ${stateDir}/.agent-registered
+              '';
+            };
           in {
             Type = "oneshot";
             User = wazuhUser;
             Group = wazuhGroup;
-            ExecStart = ''
-              ${pkg}/bin/agent-auth -m ${ip} -p ${toString port} && touch ${stateDir}/.agent-registered
-            '';
+            ExecStart = "${authScript}/bin/wazuh-agent-auth";
           };
         };
 
