@@ -8,6 +8,7 @@ EXTERNAL_DEPS=(
     "cJSON"
     "cpp-httplib"
     "curl"
+    "dbus"
     "flatbuffers"
     "googletest"
     "jemalloc"
@@ -32,9 +33,9 @@ EXTERNAL_DEPS=(
     "zlib"
 )
 
-# Find version at: https://github.com/wazuh/wazuh/blob/v4.13.1/src/Makefile#L1385
+# Find version at: https://github.com/wazuh/wazuh/blob/v4.14.5/src/Makefile#L1391
 #TODO Ensure this stays in sync with dependency version from the package, mismatches can cause prefetched content to be substituted incorrectly 
-DEPENDENCY_VERSION=43
+DEPENDENCY_VERSION=51
 BASE_URL="https://packages.wazuh.com/deps/$DEPENDENCY_VERSION/libraries/sources"
 
 echo "{" >external-dependencies.nix

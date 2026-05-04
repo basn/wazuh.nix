@@ -1,141 +1,147 @@
 {
-  "audit-userspace" = {
-    name = "audit-userspace";
-    hash = "sha256-6Coy5e35OwVRYOFLyX9B3q05KHklhR3ICnY44tTTBDQ=";
-  };
 
-  "benchmark" = {
-    name = "benchmark";
-    hash = "sha256-lMV6oMsr142+nnfTMsvGRNrw/s3JoJYyBIvm4J+c7Ws=";
-  };
+"audit-userspace" = {
+  name = "audit-userspace";
+  hash = "sha256-6Coy5e35OwVRYOFLyX9B3q05KHklhR3ICnY44tTTBDQ=";
+};
 
-  "bzip2" = {
-    name = "bzip2";
-    hash = "sha256-J2iO4DFqZLOeURssIkBwytl8OUpfcR+dBV/BgJ2JW80=";
-  };
+"benchmark" = {
+  name = "benchmark";
+  hash = "sha256-lMV6oMsr142+nnfTMsvGRNrw/s3JoJYyBIvm4J+c7Ws=";
+};
 
-  "cJSON" = {
-    name = "cJSON";
-    hash = "sha256-2oCfcLfQOsUprmIj1DkL+ibNKfjDLI6LO2Me+hZniS0=";
-  };
+"bzip2" = {
+  name = "bzip2";
+  hash = "sha256-J2iO4DFqZLOeURssIkBwytl8OUpfcR+dBV/BgJ2JW80=";
+};
 
-  "cpp-httplib" = {
-    name = "cpp-httplib";
-    hash = "sha256-ZRdXMmNhFoa5IZunlsNfVKMG6yfcPHLhgH8qCjTKweg=";
-  };
+"cJSON" = {
+  name = "cJSON";
+  hash = "sha256-2oCfcLfQOsUprmIj1DkL+ibNKfjDLI6LO2Me+hZniS0=";
+};
 
-  "curl" = {
-    name = "curl";
-    hash = "sha256-qTtbg5JV2SSHo/mtffraHcc6sBaALH9mncCaiRxlRvo=";
-  };
+"cpp-httplib" = {
+  name = "cpp-httplib";
+  hash = "sha256-ZRdXMmNhFoa5IZunlsNfVKMG6yfcPHLhgH8qCjTKweg=";
+};
 
-  "flatbuffers" = {
-    name = "flatbuffers";
-    hash = "sha256-ylY+u1Ya6QiMe+yc4QHSGCtDztC6Z6CX0O4MFFEI9Vo=";
-  };
+"curl" = {
+  name = "curl";
+  hash = "sha256-MM9xQuQoJxjOsjfhe1y/da/NfJ84gKA5xe/qYtsJRwk=";
+};
 
-  "googletest" = {
-    name = "googletest";
-    hash = "sha256-jB6KCn8iHCEl6Z5qy3CdorpHJHa00FfFjeUEvr841Bc=";
-  };
+"dbus" = {
+  name = "dbus";
+  hash = "sha256-fGVKyaT2i1DzLWdJIsGP/nQdMoqX15RFdhj8OgekjTo=";
+};
 
-  "jemalloc" = {
-    name = "jemalloc";
-    hash = "sha256-KyLoWzUsffVQukCKQiUeUejf+myRqi4ftIBKsxf/vKA=";
-  };
+"flatbuffers" = {
+  name = "flatbuffers";
+  hash = "sha256-ylY+u1Ya6QiMe+yc4QHSGCtDztC6Z6CX0O4MFFEI9Vo=";
+};
 
-  "libarchive" = {
-    name = "libarchive";
-    hash = "sha256-yVgEgXXa1aE9CFHQPHwaNjYeEujpPnQywYROlUnd9Yo=";
-  };
+"googletest" = {
+  name = "googletest";
+  hash = "sha256-jB6KCn8iHCEl6Z5qy3CdorpHJHa00FfFjeUEvr841Bc=";
+};
 
-  "libbpf-bootstrap" = {
-    name = "libbpf-bootstrap";
-    hash = "sha256-hh74B1ePDobIfuXC2YdHaFPmQGm/xLsTon4jPtNXSDI=";
-  };
+"jemalloc" = {
+  name = "jemalloc";
+  hash = "sha256-KyLoWzUsffVQukCKQiUeUejf+myRqi4ftIBKsxf/vKA=";
+};
 
-  "libdb" = {
-    name = "libdb";
-    hash = "sha256-fpxE6Mf9sYb/UhqNCFsb+mNNNC3Md37Oofv5qYq13F4=";
-  };
+"libarchive" = {
+  name = "libarchive";
+  hash = "sha256-VA/0pV3vp1d4osQFZ6gwZIzlNnuK6hIzZodNlrc074A=";
+};
 
-  "libffi" = {
-    name = "libffi";
-    hash = "sha256-DpcfZLrMIglOifA0u6B1tA7MLCwpAO7NeuhYFf1sn2k=";
-  };
+"libbpf-bootstrap" = {
+  name = "libbpf-bootstrap";
+  hash = "sha256-hh74B1ePDobIfuXC2YdHaFPmQGm/xLsTon4jPtNXSDI=";
+};
 
-  "libpcre2" = {
-    name = "libpcre2";
-    hash = "sha256-WoDWVNfRSz25+jpJ179EpJhoO0Z4SojOxRSosZR2e5I=";
-  };
+"libdb" = {
+  name = "libdb";
+  hash = "sha256-fpxE6Mf9sYb/UhqNCFsb+mNNNC3Md37Oofv5qYq13F4=";
+};
 
-  "libplist" = {
-    name = "libplist";
-    hash = "sha256-iCeNS9/BvWo6GlWk89kzaD0nMroJz3p0n+jsjuxAbjw=";
-  };
+"libffi" = {
+  name = "libffi";
+  hash = "sha256-DpcfZLrMIglOifA0u6B1tA7MLCwpAO7NeuhYFf1sn2k=";
+};
 
-  "libyaml" = {
-    name = "libyaml";
-    hash = "sha256-NdqtYIs3LVzgmfc4wPIb/MA9aSDZL0SDhsWE5mTxN2o=";
-  };
+"libpcre2" = {
+  name = "libpcre2";
+  hash = "sha256-WoDWVNfRSz25+jpJ179EpJhoO0Z4SojOxRSosZR2e5I=";
+};
 
-  "lua" = {
-    name = "lua";
-    hash = "sha256-Yu634kskbFBwi81Nkts8nejRltlMnDO4v/QA8l8QWh8=";
-  };
+"libplist" = {
+  name = "libplist";
+  hash = "sha256-iCeNS9/BvWo6GlWk89kzaD0nMroJz3p0n+jsjuxAbjw=";
+};
 
-  "lzma" = {
-    name = "lzma";
-    hash = "sha256-TODBktQQcrVnmvibtTHvtoXIJnpLfiAFmZFJrBcCgTQ=";
-  };
+"libyaml" = {
+  name = "libyaml";
+  hash = "sha256-NdqtYIs3LVzgmfc4wPIb/MA9aSDZL0SDhsWE5mTxN2o=";
+};
 
-  "msgpack" = {
-    name = "msgpack";
-    hash = "sha256-BtY7zzKJbNCvVIDEARNLGtHBZv2E6+W0hueSEB7oVOI=";
-  };
+"lua" = {
+  name = "lua";
+  hash = "sha256-Iz6H6HEJC9MMS2kqxzvXFDYcFQURSOTu7IKKHfhDbso=";
+};
 
-  "nlohmann" = {
-    name = "nlohmann";
-    hash = "sha256-zvsHk209W/3T78Xpu408gH1oEnO9rC6Ds9Z67y0RWMQ=";
-  };
+"lzma" = {
+  name = "lzma";
+  hash = "sha256-TODBktQQcrVnmvibtTHvtoXIJnpLfiAFmZFJrBcCgTQ=";
+};
 
-  "openssl" = {
-    name = "openssl";
-    hash = "sha256-I4QVZBEgyPednBwsr5e4jT1tvtVihZ3QZjvUto3CF54=";
-  };
+"msgpack" = {
+  name = "msgpack";
+  hash = "sha256-BtY7zzKJbNCvVIDEARNLGtHBZv2E6+W0hueSEB7oVOI=";
+};
 
-  "pacman" = {
-    name = "pacman";
-    hash = "sha256-9n3Tiir7NA19YDUNSbdamDp8TgGtdgIFaSDv6EnVsUM=";
-  };
+"nlohmann" = {
+  name = "nlohmann";
+  hash = "sha256-zvsHk209W/3T78Xpu408gH1oEnO9rC6Ds9Z67y0RWMQ=";
+};
 
-  "popt" = {
-    name = "popt";
-    hash = "sha256-1ogKBmIsoy3EqjmtXc977y+qgb2TGvvmS6Q0rY/uHao=";
-  };
+"openssl" = {
+  name = "openssl";
+  hash = "sha256-A4b+Ogv0i64spNF0KlPfmo/LG3NYO6Iuj4p936E3XNk=";
+};
 
-  "procps" = {
-    name = "procps";
-    hash = "sha256-Ih85XinRvb5LrMnbOWAu7guuaFqTVDe+DX/rQuMZLQc=";
-  };
+"pacman" = {
+  name = "pacman";
+  hash = "sha256-Yxq+Bl7JgttWv+wFzzfDOo9on9f0Fkw5J3KEvXoNDjE=";
+};
 
-  "rocksdb" = {
-    name = "rocksdb";
-    hash = "sha256-7u1go9Tin3MF55+fXOvUJhF0JhIn8bWn0F2lVWVnVDY=";
-  };
+"popt" = {
+  name = "popt";
+  hash = "sha256-1ogKBmIsoy3EqjmtXc977y+qgb2TGvvmS6Q0rY/uHao=";
+};
 
-  "rpm" = {
-    name = "rpm";
-    hash = "sha256-rvwlMB7M8irFHL2BOn89RHHxxCYYFy7lSKKbGVmsW68=";
-  };
+"procps" = {
+  name = "procps";
+  hash = "sha256-Ih85XinRvb5LrMnbOWAu7guuaFqTVDe+DX/rQuMZLQc=";
+};
 
-  "sqlite" = {
-    name = "sqlite";
-    hash = "sha256-mo+mqRb4whB+1l2rjc7TkmBOF1EE1qjDycE4NHmGnwc=";
-  };
+"rocksdb" = {
+  name = "rocksdb";
+  hash = "sha256-7u1go9Tin3MF55+fXOvUJhF0JhIn8bWn0F2lVWVnVDY=";
+};
 
-  "zlib" = {
-    name = "zlib";
-    hash = "sha256-tZ04FJ8MKexU0nZmEevFpRoDK/lxfjmprwD7bLhTK4s=";
-  };
+"rpm" = {
+  name = "rpm";
+  hash = "sha256-kNhy9U6rzzdzbZCsF6jTEwEtqE5oWxn9Lav0oBKVcpA=";
+};
+
+"sqlite" = {
+  name = "sqlite";
+  hash = "sha256-qBv/MLtK/9GwakmD/4jvgntKuuoxkbOa/37bKNHd0AM=";
+};
+
+"zlib" = {
+  name = "zlib";
+  hash = "sha256-tZ04FJ8MKexU0nZmEevFpRoDK/lxfjmprwD7bLhTK4s=";
+};
 }

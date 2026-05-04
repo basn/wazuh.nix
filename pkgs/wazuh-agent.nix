@@ -4,6 +4,7 @@
   clang,
   cmake,
   curl,
+  expat,
   elfutils,
   fetchFromGitHub,
   fetchurl,
@@ -31,8 +32,8 @@
   ...
 }: let
   inherit (lib) getExe;
-  version = "4.13.1";
-  dependencyVersion = "43";
+  version = "4.14.5";
+  dependencyVersion = "51";
 
   external-dependencies = (
     lib.mapAttrsToList (
@@ -47,8 +48,8 @@
   wazuh-http-request = fetchFromGitHub {
     owner = "wazuh";
     repo = "wazuh-http-request";
-    rev = "75384783d339a817b8d8f13f778051a878d642a6";
-    hash = "sha256-yCKxwzG65BB3Cr1gEkX4qxbGCjG5zzJpq9di5L1couU=";
+    rev = "cd50797cfe03c27f3759bdc243fecca6f7535d35";
+    hash = "sha256-K8wgvsoOeCJyn1z9P7E/g2w7x0Jt5BjUhakK1eyUYeA=";
   };
   libbpf_bootstrap_deps = {
     bootstrap = fetchFromGitHub {
@@ -72,7 +73,7 @@ in
       owner = "wazuh";
       repo = "wazuh";
       tag = "v${version}";
-      hash = "sha256-LmMt2t2ra7kPiYwcy+GIKg5a+LPebTNct/FP5en5JR0=";
+      hash = "sha256-Vtld3DCp3OEFcevydZC6gZkL2ngbPsasBiyzBc5VRDY=";
     };
 
     dontConfigure = true;
@@ -98,6 +99,7 @@ in
     ];
 
     buildInputs = [
+      expat
       elfutils
       libbfd
       libbpf
