@@ -38,9 +38,12 @@
   external-dependencies = (
     lib.mapAttrsToList (
       _: dep:
-        fetchurl {
-          url = "https://packages.wazuh.com/deps/${dependencyVersion}/libraries/sources/${dep.name}.tar.gz";
-          hash = dep.hash;
+        {
+          inherit (dep) name;
+          src = fetchurl {
+            url = "https://packages.wazuh.com/deps/${dependencyVersion}/libraries/sources/${dep.name}.tar.gz";
+            hash = dep.hash;
+          };
         }
     ) (import ./dependencies/external-dependencies.nix)
   );
@@ -82,6 +85,8 @@ in
     hardeningDisable = [
       "zerocallusedregs"
     ];
+
+    NIX_CFLAGS_COMPILE = "-Wno-error=incompatible-pointer-types";
 
     nativeBuildInputs = [
       autoconf
@@ -126,7 +131,10 @@ in
 
       mkdir -p src/external
       ${lib.strings.concatMapStringsSep "\n" (
-          dep: "tar -xzf ${dep} -C src/external"
+          dep: ''
+            tar -xzf ${dep.src} -C src/external
+            touch src/external/${dep.name}.tar.gz
+          ''
         )
         external-dependencies}
 

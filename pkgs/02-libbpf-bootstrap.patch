@@ -5,7 +5,7 @@
  ExternalProject_Add(libbpf
    PREFIX libbpf
 -  GIT_REPOSITORY https://github.com/libbpf/libbpf.git
--  GIT_TAG v1.5.0  # v1.4.0: f11758a7807893330cc87481a7a16cf956326ab3
+-  GIT_TAG v1.7.0  # v1.4.0: f11758a7807893330cc87481a7a16cf956326ab3
    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libbpf
    CONFIGURE_COMMAND ""
    BUILD_COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR}/libbpf/src && make CFLAGS="-fPIC${CFLAGS}" LDFLAGS="-lelf${LDFLAGS}"
@@ -21,7 +21,7 @@
  ExternalProject_Add(bpftool
    PREFIX bpftool
 -  GIT_REPOSITORY https://github.com/libbpf/bpftool.git
--  GIT_TAG v7.5.0
+-  GIT_TAG v7.7.0
    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bpftool
    CONFIGURE_COMMAND ""
    BUILD_COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR}/bpftool/src && make bootstrap
@@ -63,6 +63,6 @@
    ${CMAKE_CURRENT_SOURCE_DIR}/vmlinux.h/include/${ARCH}
  )
  
-+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=implicit-function-declaration -Wno-error=int-conversion")
++set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu17 -Wno-error=implicit-function-declaration -Wno-error=int-conversion")
  bpf_object(modern src/modern.bpf.c)
  add_dependencies(modern_skel libbpf-build bpftool-build vmlinux.h)

@@ -57,7 +57,7 @@
 
 "libbpf-bootstrap" = {
   name = "libbpf-bootstrap";
-  hash = "sha256-hh74B1ePDobIfuXC2YdHaFPmQGm/xLsTon4jPtNXSDI=";
+  hash = "sha256-b3bQXFpDWCBLnfoKNy8lfROP/4QC/cUkSRNdq5mt8zY=";
 };
 
 "libdb" = {
