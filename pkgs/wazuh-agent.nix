@@ -193,7 +193,7 @@ in
       mkdir -p $out/{bin,etc/shared,queue,var,wodles,logs,lib,tmp,agentless,active-response}
 
       substituteInPlace install.sh \
-        --replace-warn "Xroot" "Xnixbld"
+        --replace-warn 'if [ ! "X$ME" = "Xroot" ]; then' 'if false; then'
       chmod u+x install.sh
 
       INSTALLDIR=$out USER_DIR=$out ./install.sh binary-install
